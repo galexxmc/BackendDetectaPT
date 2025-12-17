@@ -1,12 +1,11 @@
 using System.Reflection;
 using BackendPTDetecta.Domain.Entities;
-using BackendPTDetecta.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using BackendPTDetecta.Application.Common.Interfaces;
 
 namespace BackendPTDetecta.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

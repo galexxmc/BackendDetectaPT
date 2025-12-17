@@ -30,7 +30,7 @@ namespace BackendPTDetecta.Infrastructure.Persistence.Configurations
 
             builder.Property(p => p.Codigo)
                 .HasColumnName("TX_CODIGO_PACIENTE")
-                .ValueGeneratedOnAddOrUpdate(); 
+                .HasMaxLength(20);
 
             builder.Property(p => p.FechaNacimiento)
                 .HasColumnName("FE_NACIMIENTO")
@@ -40,9 +40,50 @@ namespace BackendPTDetecta.Infrastructure.Persistence.Configurations
                 .HasColumnName("NU_ID_SEXO")
                 .IsRequired();
 
-            builder.Property(p => p.UsuarioRegistro).HasColumnName("TX_USU_REG");
-            builder.Property(p => p.FechaRegistro).HasColumnName("FE_REG");
-            builder.Property(p => p.EstadoRegistro).HasColumnName("NU_ESTADO"); 
+            builder.Property(p => p.Direccion)
+                .HasColumnName("TX_DIRECCION")
+                .HasMaxLength(200);
+
+            builder.Property(p => p.Telefono)
+                .HasColumnName("TX_TELEFONO")
+                .HasMaxLength(20);
+
+            builder.Property(p => p.Email)
+                .HasColumnName("TX_EMAIL")
+                .HasMaxLength(100);
+
+            builder.Property(p => p.UsuarioRegistro)
+                .HasColumnName("TX_USU_REG")
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Property(p => p.FechaRegistro)
+                .HasColumnName("FE_REG")
+                .HasColumnType("datetime2(0)")
+                .IsRequired();
+
+            builder.Property(p => p.UsuarioModificacion)
+                .HasColumnName("TX_USU_MOD")
+                .HasMaxLength(50);
+
+            builder.Property(p => p.FechaModificacion)
+                .HasColumnName("FE_MOD")
+                .HasColumnType("datetime2(0)");
+
+            builder.Property(p => p.UsuarioEliminacion)
+                .HasColumnName("TX_USU_ELI")
+                .HasMaxLength(50);
+
+            builder.Property(p => p.FechaEliminacion)
+                .HasColumnName("FE_ELI")
+                .HasColumnType("datetime2(0)");             
+
+            builder.Property(p => p.MotivoEliminacion)
+                .HasColumnName("TX_MOTIVO_ELI")
+                .HasMaxLength(500);
+
+            builder.Property(p => p.EstadoRegistro)
+                .HasColumnName("NU_ESTADO");
         }
     }
 }

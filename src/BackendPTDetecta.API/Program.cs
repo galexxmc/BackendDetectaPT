@@ -1,7 +1,9 @@
+using BackendPTDetecta.Application;
 using BackendPTDetecta.Infrastructure.Persistence;
 using BackendPTDetecta.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using BackendPTDetecta.Application.Common.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+    
+// Esto le dice a la API: "Cuando un Handler pida IApplicationDbContext, dale la instancia de ApplicationDbContext"
+builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
 // 2. CAPA INFRASTRUCTURE: Configuración de Identity (Auth)
 builder.Services.AddIdentityCore<ApplicationUser>()
@@ -27,6 +32,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// Esto carga toda la lógica de negocio (MediatR, Validadores)
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 

@@ -9,7 +9,7 @@ namespace BackendPTDetecta.Domain.Entities
         public string Apellidos { get; set; } = string.Empty;
         public string Dni { get; set; } = string.Empty;
         public string Codigo { get; set; } = string.Empty;
-        public DateTime FechaNacimiento { get; set; }
+        public DateOnly FechaNacimiento { get; set; }
         public Sexo Sexo { get; set; }
         public string Direccion { get; set; } = string.Empty;
         public string Telefono { get; set; } = string.Empty;
@@ -18,9 +18,12 @@ namespace BackendPTDetecta.Domain.Entities
         {
             get
             {
-                var hoy = DateTime.UtcNow;
+                var hoy = DateOnly.FromDateTime(DateTime.UtcNow);
                 var edad = hoy.Year - FechaNacimiento.Year;
-                if (hoy.Date < FechaNacimiento.Date.AddYears(edad)) edad--;
+                if (hoy < FechaNacimiento.AddYears(edad))
+                {
+                    edad--;
+                }
                 return edad;
             }
         }
