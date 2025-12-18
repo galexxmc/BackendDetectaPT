@@ -1,3 +1,4 @@
+using BackendPTDetecta.Application.Common.Models;
 using BackendPTDetecta.Application.Features.Pacientes.Commands.ActualizarPaciente;
 using BackendPTDetecta.Application.Features.Pacientes.Commands.CrearPaciente;
 using BackendPTDetecta.Application.Features.Pacientes.Commands.EliminarPaciente;
@@ -32,17 +33,26 @@ namespace BackendPTDetecta.API.Controllers
             return Ok(id);
         }
 
-        // GET: api/Pacientes
+        // GET: api/Pacientes?pageNumber=1&pageSize=10
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<PacienteDto>>> Listar()
+        public async Task<ActionResult<PaginatedList<PacienteDto>>> Listar(
+            [FromQuery] string? searchTerm,
+            [FromQuery] int pageNumber = 1, 
+            [FromQuery] int pageSize = 10)
         {
-            // Enviamos la consulta vacía al mediador
-            var query = new GetPacientesListQuery();
-            var dtos = await _mediator.Send(query);
+            var query = new GetPacientesListQuery 
+            { 
+                SearchTerm = searchTerm,
+                PageNumber = pageNumber, 
+                PageSize = pageSize 
+            };
 
-            return Ok(dtos);
+            var resultado = await _mediator.Send(query);
+            
+            return Ok(resultado);
         }
+
         // GET: api/Pacientes/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
