@@ -34,11 +34,6 @@ public class ActualizarPacienteCommandHandler : IRequestHandler<ActualizarPacien
         entity.Telefono = request.Telefono ?? string.Empty;
         entity.Email = request.Email ?? string.Empty;
 
-        // 4. AUDITORÍA: ¡Esto es clave! Registramos cuándo y quién modificó
-        // Como arreglamos la configuración de fecha, esto se guardará limpio.
-        entity.FechaModificacion = DateTime.UtcNow; // Se guardará como fecha Perú si configuraste el conversor o tal cual UTC
-        entity.UsuarioModificacion = "SISTEMA"; // Aquí iría el usuario real si tuvieras login
-
         // 5. GUARDAR
         await _context.SaveChangesAsync(cancellationToken);
 

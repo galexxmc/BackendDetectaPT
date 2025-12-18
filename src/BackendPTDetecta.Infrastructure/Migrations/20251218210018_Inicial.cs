@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BackendPTDetecta.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,7 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Nombres = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Apellidos = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CodigoUsuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -61,18 +62,18 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                     TX_NOM_PACIEN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     TX_APE_PACIEN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     NU_DNI_PACIEN = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    TX_CODIGO_PACIENTE = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FE_NACIMIENTO = table.Column<DateTime>(type: "date", nullable: false),
+                    TX_CODIGO_PACIENTE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    FE_NACIMIENTO = table.Column<DateOnly>(type: "date", nullable: false),
                     NU_ID_SEXO = table.Column<int>(type: "int", nullable: false),
                     TX_DIRECCION = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     TX_TELEFONO = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     TX_EMAIL = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     TX_USU_REG = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FE_REG = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FE_REG = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
                     TX_USU_MOD = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FE_MOD = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FE_MOD = table.Column<DateTime>(type: "datetime2(0)", nullable: true),
                     TX_USU_ELI = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FE_ELI = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FE_ELI = table.Column<DateTime>(type: "datetime2(0)", nullable: true),
                     TX_MOTIVO_ELI = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     NU_ESTADO = table.Column<int>(type: "int", nullable: false)
                 },

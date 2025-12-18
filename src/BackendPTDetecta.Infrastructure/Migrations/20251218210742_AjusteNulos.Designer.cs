@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendPTDetecta.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251217213910_CambiarFechaNacimientoADateOnly")]
-    partial class CambiarFechaNacimientoADateOnly
+    [Migration("20251218210742_AjusteNulos")]
+    partial class AjusteNulos
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,6 +135,10 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Apellidos")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CodigoUsuario")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

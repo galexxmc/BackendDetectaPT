@@ -4,36 +4,28 @@ using BackendPTDetecta.Application.Features.Pacientes.Commands.CrearPaciente;
 using BackendPTDetecta.Application.Features.Pacientes.Commands.EliminarPaciente;
 using BackendPTDetecta.Application.Features.Pacientes.Queries.GetPacienteById;
 using BackendPTDetecta.Application.Features.Pacientes.Queries.GetPacientesList;
-using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackendPTDetecta.API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")] // La URL será: api/pacientes
-    public class PacientesController : ControllerBase
+    // Heredamos de ApiControllerBase.
+    // Nota: Ya no es necesario poner [Route] ni [ApiController] porque ApiControllerBase ya los tiene.
+    [Authorize]
+    public class PacientesController : ApiControllerBase
     {
-        private readonly IMediator _mediator;
+        // ❌ BORRADO: Constructor y variable _mediator.
+        // ✅ AHORA USAMOS: La propiedad "Mediator" que heredamos del padre.
 
-        public PacientesController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
-        // POST: api/pacientes
+        // POST: api/Pacientes
         [HttpPost]
         public async Task<ActionResult<int>> Crear(CrearPacienteCommand command)
         {
-            // Enviamos el comando al "Cerebro" (Handler)
-            // Si la validación falla, MediatR/FluentValidation lanzarán una excepción (luego lo manejaremos globalmente)
-            // Si todo sale bien, nos devuelve el ID del paciente creado.
-
-            var id = await _mediator.Send(command);
-
+            var id = await Mediator.Send(command); // Mediator con "M" mayúscula
             return Ok(id);
         }
 
-        // GET: api/Pacientes?pageNumber=1&pageSize=10
+        // GET: api/Pacientes
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<PaginatedList<PacienteDto>>> Listar(
@@ -48,8 +40,7 @@ namespace BackendPTDetecta.API.Controllers
                 PageSize = pageSize 
             };
 
-            var resultado = await _mediator.Send(query);
-            
+            var resultado = await Mediator.Send(query);
             return Ok(resultado);
         }
 
@@ -60,12 +51,9 @@ namespace BackendPTDetecta.API.Controllers
         public async Task<ActionResult<PacienteDetalleDto>> ObtenerPorId(int id)
         {
             var query = new GetPacienteByIdQuery(id);
-            var paciente = await _mediator.Send(query);
+            var paciente = await Mediator.Send(query);
 
-            if (paciente == null)
-            {
-                return NotFound($"No se encontró el paciente con ID {id}");
-            }
+            if (paciente == null) return NotFound($"No se encontró el paciente con ID {id}");
 
             return Ok(paciente);
         }
@@ -78,42 +66,39 @@ namespace BackendPTDetecta.API.Controllers
         public async Task<IActionResult> Actualizar(int id, ActualizarPacienteCommand command)
         {
             if (id != command.Id)
-            {
-                return BadRequest("El ID de la URL no coincide con el ID del cuerpo de la petición.");
-            }
+                return BadRequest("El ID de la URL no coincide con el ID del cuerpo.");
 
-            // Si el ID no existe, el Handler lanzará KeyNotFoundException.
-            // Lo ideal es tener un Middleware global de errores, pero por ahora ASP.NET lo manejará.
             try
             {
-                await _mediator.Send(command);
+                await Mediator.Send(command);
             }
             catch (KeyNotFoundException)
             {
                 return NotFound();
             }
 
-            return NoContent(); // 204 No Content es el estándar cuando se actualiza con éxito y no devuelves nada
+            return NoContent();
         }
 
-        // DELETE: api/Pacientes/5
+        // DELETE: api/Pacientes/5?motivo=Error de digitacion
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Eliminar(int id)
+        public async Task<IActionResult> Eliminar(int id, [FromQuery] string motivo) // <--- Nuevo parámetro en la URL
         {
-            var command = new EliminarPacienteCommand(id);
+            // Creamos el comando pasando ID y MOTIVO
+            var command = new EliminarPacienteCommand(id, motivo);
 
             try
             {
-                await _mediator.Send(command);
+                await Mediator.Send(command);
             }
             catch (KeyNotFoundException)
             {
                 return NotFound();
             }
 
-            return NoContent(); // 204: Éxito sin contenido
+            return NoContent();
         }
     }
 }

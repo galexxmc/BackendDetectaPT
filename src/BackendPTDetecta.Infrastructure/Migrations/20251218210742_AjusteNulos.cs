@@ -5,7 +5,7 @@
 namespace BackendPTDetecta.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class CambiarFechaNacimientoADateOnly : Migration
+    public partial class AjusteNulos : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -6,5 +6,6 @@ namespace BackendPTDetecta.Infrastructure.Identity
     {
         public string Nombres { get; set; } = string.Empty;
         public string Apellidos { get; set; } = string.Empty;
+        public string CodigoUsuario { get; set; } = string.Empty;
     }
 }

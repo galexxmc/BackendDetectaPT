@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendPTDetecta.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251217213059_PermitirNulosEnEliminacion2")]
-    partial class PermitirNulosEnEliminacion2
+    [Migration("20251218210018_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,7 +76,7 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("FE_MOD");
 
-                    b.Property<DateTime>("FechaNacimiento")
+                    b.Property<DateOnly>("FechaNacimiento")
                         .HasColumnType("date")
                         .HasColumnName("FE_NACIMIENTO");
 
@@ -135,6 +135,10 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Apellidos")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CodigoUsuario")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
