@@ -3,18 +3,21 @@ using BackendPTDetecta.Application.Features.Usuarios.Commands.RegistrarUsuario;
 using BackendPTDetecta.Application.Features.Usuarios.Commands.LoginUsuario;
 using BackendPTDetecta.Application.Features.Usuarios.Commands.OlvideContrasena;
 using BackendPTDetecta.Application.Features.Usuarios.Commands.ResetearContrasena;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackendPTDetecta.API.Controllers;
 
 public class UsuariosController : ApiControllerBase
 {
     [HttpPost("register")]
+    [AllowAnonymous]
     public async Task<ActionResult<string>> Registrar(RegistrarUsuarioCommand command)
     {
         return await Mediator.Send(command);
     }
 
     [HttpPost("login")]
+    [AllowAnonymous]
     public async Task<ActionResult<LoginResponseDto>> Login(LoginUsuarioCommand command)
     {
         try 
@@ -28,6 +31,7 @@ public class UsuariosController : ApiControllerBase
     }
 
     [HttpPost("forgot-password")]
+    [AllowAnonymous]
     public async Task<ActionResult<string>> OlvideContrasena(OlvideContrasenaCommand command)
     {
         try
@@ -42,6 +46,7 @@ public class UsuariosController : ApiControllerBase
         }
     }
     [HttpPost("reset-password")]
+    [AllowAnonymous]
     public async Task<ActionResult<string>> ResetearContrasena(ResetearContrasenaCommand command)
     {
         try

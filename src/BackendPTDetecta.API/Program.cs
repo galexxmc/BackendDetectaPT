@@ -106,6 +106,17 @@ builder.Services.AddHttpContextAccessor();
 // 2. Conectar la interfaz con la implementación que acabamos de crear
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
+// 1. AGREGAR POLÍTICA CORS (La Lista de Invitados)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("NuevaPolitica", app => 
+    {
+        app.AllowAnyOrigin()   // En producción pondríamos "http://localhost:5173"
+           .AllowAnyHeader()
+           .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configuración del Pipeline HTTP
@@ -116,6 +127,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("NuevaPolitica");
 
 // Importante: El orden importa
 app.UseAuthentication();
