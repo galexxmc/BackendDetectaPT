@@ -13,5 +13,6 @@ namespace BackendPTDetecta.Application.Features.Pacientes.Commands.CrearPaciente
         public string? Direccion { get; set; }
         public string? Telefono { get; set; }
         public string? Email { get; set; }
+        public int IdTipoSeguro { get; set; }
     }
 }

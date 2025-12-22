@@ -28,7 +28,8 @@ namespace BackendPTDetecta.Application.Features.Pacientes.Commands.CrearPaciente
                 
                 Direccion = request.Direccion ?? string.Empty,
                 Telefono = request.Telefono ?? string.Empty,
-                Email = request.Email ?? string.Empty
+                Email = request.Email ?? string.Empty,
+                TipoSeguroId = request.IdTipoSeguro
             };
 
             // 2. PRIMER GUARDADO: Aquí obtiene su ID y se llenan FechaRegistro/UsuarioRegistro

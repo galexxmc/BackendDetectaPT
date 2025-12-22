@@ -27,5 +27,7 @@ namespace BackendPTDetecta.Domain.Entities
                 return edad;
             }
         }
+        public int? TipoSeguroId { get; set; } 
+        public TipoSeguro? TipoSeguro { get; set; }
     }
 }

@@ -33,6 +33,7 @@ public class ActualizarPacienteCommandHandler : IRequestHandler<ActualizarPacien
         entity.Direccion = request.Direccion ?? string.Empty;
         entity.Telefono = request.Telefono ?? string.Empty;
         entity.Email = request.Email ?? string.Empty;
+        entity.TipoSeguroId = request.IdTipoSeguro;
 
         // 5. GUARDAR
         await _context.SaveChangesAsync(cancellationToken);

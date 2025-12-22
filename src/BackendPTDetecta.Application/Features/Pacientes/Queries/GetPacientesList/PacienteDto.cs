@@ -12,4 +12,5 @@ public class PacienteDto
     public string Sexo { get; set; } = string.Empty; // Devolveremos "Masculino" en vez de "1"
     public string? Telefono { get; set; }
     public string? Email { get; set; }
+    public string NombreSeguro { get; set; } = string.Empty;
 }

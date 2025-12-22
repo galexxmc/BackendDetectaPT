@@ -18,23 +18,23 @@ public class GetPacientesListQueryHandler : IRequestHandler<GetPacientesListQuer
     {
         // 1. Iniciamos la consulta base (solo activos)
         var query = _context.Pacientes
+            .AsNoTracking() 
             .Where(p => p.FechaEliminacion == null)
-            .AsQueryable(); // Importante para seguir agregando condiciones
+            .AsQueryable();
 
         // 2. FILTRO INTELIGENTE 🔍
-        // Si el usuario escribió algo, filtramos por Nombre, Apellido O DNI
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
-                {
-                    string texto = request.SearchTerm.Trim(); // Quitamos espacios vacíos
-                    // EF Core traducirá esto a SQL con "LIKE"
-                    query = query.Where(p => 
-                        p.Nombres.Contains(texto) || 
-                        p.Apellidos.Contains(texto) || 
-                        p.Dni.Contains(texto)
-                    );
-                }
+        {
+            string texto = request.SearchTerm.Trim(); 
+            query = query.Where(p => 
+                p.Nombres.Contains(texto) || 
+                p.Apellidos.Contains(texto) || 
+                p.Dni.Contains(texto) || 
+                p.Codigo.Contains(texto) 
+            );
+        }
 
-        // 3. Ordenamos y Proyectamos (Igual que antes)
+        // 3. Ordenamos y Proyectamos
         var dtoQuery = query
             .OrderByDescending(p => p.Id)
             .Select(p => new PacienteDto
@@ -46,12 +46,13 @@ public class GetPacientesListQueryHandler : IRequestHandler<GetPacientesListQuer
                 Dni = p.Dni,
                 FechaNacimiento = p.FechaNacimiento,
                 Edad = p.Edad,
-                Sexo = p.Sexo.ToString(),
+                Sexo = p.Sexo.ToString(), 
                 Telefono = p.Telefono,
-                Email = p.Email
+                Email = p.Email,
+                NombreSeguro = p.TipoSeguro != null ? p.TipoSeguro.Nombre : "Particular"
             });
-        // 2. Usamos nuestra herramienta para Paginar y Ejecutar
-        // Esto hace el Skip, Take, cuenta el total y devuelve la lista lista.
+
+        // 4. Paginación y Retorno
         return await PaginatedList<PacienteDto>
                     .CreateAsync(dtoQuery, request.PageNumber, request.PageSize);
     }

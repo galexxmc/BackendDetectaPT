@@ -84,6 +84,14 @@ namespace BackendPTDetecta.Infrastructure.Persistence.Configurations
 
             builder.Property(p => p.EstadoRegistro)
                 .HasColumnName("NU_ESTADO");
+
+            builder.Property(p => p.TipoSeguroId)
+                .HasColumnName("NU_ID_TIPO_SEGURO"); 
+
+            builder.HasOne(p => p.TipoSeguro)
+                .WithMany()
+                .HasForeignKey(p => p.TipoSeguroId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
