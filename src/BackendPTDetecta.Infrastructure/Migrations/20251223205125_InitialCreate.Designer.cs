@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendPTDetecta.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251218210018_Inicial")]
-    partial class Inicial
+    [Migration("20251223205125_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,127 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("BackendPTDetecta.Domain.Entities.Maestro", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("NU_ID_MAESTRO");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EstadoRegistro")
+                        .HasColumnType("int")
+                        .HasColumnName("NU_ESTADO");
+
+                    b.Property<DateTime?>("FechaEliminacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FE_MOD");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FE_REG");
+
+                    b.Property<string>("Grupo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("TX_GRUPO");
+
+                    b.Property<string>("MotivoEliminacion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("TX_NOMBRE");
+
+                    b.Property<string>("UsuarioEliminacion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("TX_USU_MOD");
+
+                    b.Property<string>("UsuarioRegistro")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("TX_USU_REG");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MAESTROS", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EstadoRegistro = 1,
+                            FechaRegistro = new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5385),
+                            Grupo = "SEXO",
+                            Nombre = "Masculino",
+                            UsuarioRegistro = "SYSTEM"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EstadoRegistro = 1,
+                            FechaRegistro = new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5581),
+                            Grupo = "SEXO",
+                            Nombre = "Femenino",
+                            UsuarioRegistro = "SYSTEM"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EstadoRegistro = 1,
+                            FechaRegistro = new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5583),
+                            Grupo = "SEGURO",
+                            Nombre = "SIS",
+                            UsuarioRegistro = "SYSTEM"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            EstadoRegistro = 1,
+                            FechaRegistro = new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5591),
+                            Grupo = "SEGURO",
+                            Nombre = "EsSalud",
+                            UsuarioRegistro = "SYSTEM"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            EstadoRegistro = 1,
+                            FechaRegistro = new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5592),
+                            Grupo = "SEGURO",
+                            Nombre = "EPS Pacífico",
+                            UsuarioRegistro = "SYSTEM"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            EstadoRegistro = 1,
+                            FechaRegistro = new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5594),
+                            Grupo = "SEGURO",
+                            Nombre = "Rimac Seguros",
+                            UsuarioRegistro = "SYSTEM"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            EstadoRegistro = 1,
+                            FechaRegistro = new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5595),
+                            Grupo = "SEGURO",
+                            Nombre = "Particular",
+                            UsuarioRegistro = "SYSTEM"
+                        });
+                });
 
             modelBuilder.Entity("BackendPTDetecta.Domain.Entities.Paciente", b =>
                 {
@@ -84,6 +205,12 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                         .HasColumnType("datetime2(0)")
                         .HasColumnName("FE_REG");
 
+                    b.Property<string>("HistoriaClinica")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("TX_HISTORIA_CLINICA");
+
                     b.Property<string>("MotivoEliminacion")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
@@ -95,7 +222,7 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("TX_NOM_PACIEN");
 
-                    b.Property<int>("Sexo")
+                    b.Property<int>("SexoId")
                         .HasColumnType("int")
                         .HasColumnName("NU_ID_SEXO");
 
@@ -104,6 +231,10 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("TX_TELEFONO");
+
+                    b.Property<int>("TipoSeguroId")
+                        .HasColumnType("int")
+                        .HasColumnName("NU_ID_TIPO_SEGURO");
 
                     b.Property<string>("UsuarioEliminacion")
                         .HasMaxLength(50)
@@ -122,6 +253,10 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                         .HasColumnName("TX_USU_REG");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SexoId");
+
+                    b.HasIndex("TipoSeguroId");
 
                     b.ToTable("PACIENTES", (string)null);
                 });
@@ -334,6 +469,25 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("BackendPTDetecta.Domain.Entities.Paciente", b =>
+                {
+                    b.HasOne("BackendPTDetecta.Domain.Entities.Maestro", "Sexo")
+                        .WithMany()
+                        .HasForeignKey("SexoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BackendPTDetecta.Domain.Entities.Maestro", "TipoSeguro")
+                        .WithMany()
+                        .HasForeignKey("TipoSeguroId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Sexo");
+
+                    b.Navigation("TipoSeguro");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

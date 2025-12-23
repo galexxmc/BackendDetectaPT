@@ -5,6 +5,7 @@ using BackendPTDetecta.Application.Common.Interfaces;
 using BackendPTDetecta.Domain.Common;
 using BackendPTDetecta.Domain.Entities;
 using BackendPTDetecta.Infrastructure.Identity;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BackendPTDetecta.Infrastructure.Persistence;
 
@@ -21,9 +22,15 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
 
     // Tabla de Pacientes (Ya existía)
     public DbSet<Paciente> Pacientes { get; set; }
+    public DbSet<Maestro> Maestros => Set<Maestro>();
 
-    // 🔥 NUEVO: Tabla de TipoSeguros (AGREGAR ESTA LÍNEA)
-    public DbSet<TipoSeguro> TipoSeguros => Set<TipoSeguro>();
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.ConfigureWarnings(warnings => 
+            warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+            
+        base.OnConfiguring(optionsBuilder);
+    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

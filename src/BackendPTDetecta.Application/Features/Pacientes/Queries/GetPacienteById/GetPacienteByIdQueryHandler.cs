@@ -32,10 +32,11 @@ public class GetPacienteByIdQueryHandler : IRequestHandler<GetPacienteByIdQuery,
             Dni = paciente.Dni,
             FechaNacimiento = paciente.FechaNacimiento,
             Edad = paciente.Edad,
-            Sexo = paciente.Sexo.ToString(),
+            Sexo = paciente.Sexo != null ? paciente.Sexo.Nombre : "Desconocido",
             Telefono = paciente.Telefono,
             Email = paciente.Email,
-            Direccion = paciente.Direccion
+            Direccion = paciente.Direccion,
+            NombreSeguro = paciente.TipoSeguro != null ? paciente.TipoSeguro.Nombre : "Particular",
         };
     }
 }

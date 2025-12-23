@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace BackendPTDetecta.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,32 +56,25 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PACIENTES",
+                name: "MAESTROS",
                 columns: table => new
                 {
-                    NU_ID_PACIENTE = table.Column<int>(type: "int", nullable: false)
+                    NU_ID_MAESTRO = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TX_NOM_PACIEN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TX_APE_PACIEN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    NU_DNI_PACIEN = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    TX_CODIGO_PACIENTE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    FE_NACIMIENTO = table.Column<DateOnly>(type: "date", nullable: false),
-                    NU_ID_SEXO = table.Column<int>(type: "int", nullable: false),
-                    TX_DIRECCION = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    TX_TELEFONO = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    TX_EMAIL = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TX_USU_REG = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FE_REG = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
-                    TX_USU_MOD = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FE_MOD = table.Column<DateTime>(type: "datetime2(0)", nullable: true),
-                    TX_USU_ELI = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    FE_ELI = table.Column<DateTime>(type: "datetime2(0)", nullable: true),
-                    TX_MOTIVO_ELI = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    TX_GRUPO = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    TX_NOMBRE = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    TX_USU_REG = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FE_REG = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TX_USU_MOD = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FE_MOD = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UsuarioEliminacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaEliminacion = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    MotivoEliminacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NU_ESTADO = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PACIENTES", x => x.NU_ID_PACIENTE);
+                    table.PrimaryKey("PK_MAESTROS", x => x.NU_ID_MAESTRO);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,6 +183,63 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PACIENTES",
+                columns: table => new
+                {
+                    NU_ID_PACIENTE = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TX_NOM_PACIEN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    TX_APE_PACIEN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    NU_DNI_PACIEN = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    TX_CODIGO_PACIENTE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    TX_HISTORIA_CLINICA = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    FE_NACIMIENTO = table.Column<DateOnly>(type: "date", nullable: false),
+                    NU_ID_SEXO = table.Column<int>(type: "int", nullable: false),
+                    TX_DIRECCION = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    TX_TELEFONO = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    TX_EMAIL = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    NU_ID_TIPO_SEGURO = table.Column<int>(type: "int", nullable: false),
+                    TX_USU_REG = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FE_REG = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
+                    TX_USU_MOD = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    FE_MOD = table.Column<DateTime>(type: "datetime2(0)", nullable: true),
+                    TX_USU_ELI = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    FE_ELI = table.Column<DateTime>(type: "datetime2(0)", nullable: true),
+                    TX_MOTIVO_ELI = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    NU_ESTADO = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PACIENTES", x => x.NU_ID_PACIENTE);
+                    table.ForeignKey(
+                        name: "FK_PACIENTES_MAESTROS_NU_ID_SEXO",
+                        column: x => x.NU_ID_SEXO,
+                        principalTable: "MAESTROS",
+                        principalColumn: "NU_ID_MAESTRO",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PACIENTES_MAESTROS_NU_ID_TIPO_SEGURO",
+                        column: x => x.NU_ID_TIPO_SEGURO,
+                        principalTable: "MAESTROS",
+                        principalColumn: "NU_ID_MAESTRO",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "MAESTROS",
+                columns: new[] { "NU_ID_MAESTRO", "NU_ESTADO", "FechaEliminacion", "FE_MOD", "FE_REG", "TX_GRUPO", "MotivoEliminacion", "TX_NOMBRE", "UsuarioEliminacion", "TX_USU_MOD", "TX_USU_REG" },
+                values: new object[,]
+                {
+                    { 1, 1, null, null, new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5385), "SEXO", null, "Masculino", null, null, "SYSTEM" },
+                    { 2, 1, null, null, new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5581), "SEXO", null, "Femenino", null, null, "SYSTEM" },
+                    { 3, 1, null, null, new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5583), "SEGURO", null, "SIS", null, null, "SYSTEM" },
+                    { 4, 1, null, null, new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5591), "SEGURO", null, "EsSalud", null, null, "SYSTEM" },
+                    { 5, 1, null, null, new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5592), "SEGURO", null, "EPS Pacífico", null, null, "SYSTEM" },
+                    { 6, 1, null, null, new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5594), "SEGURO", null, "Rimac Seguros", null, null, "SYSTEM" },
+                    { 7, 1, null, null, new DateTime(2025, 12, 23, 20, 51, 24, 988, DateTimeKind.Utc).AddTicks(5595), "SEGURO", null, "Particular", null, null, "SYSTEM" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -226,6 +278,16 @@ namespace BackendPTDetecta.Infrastructure.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PACIENTES_NU_ID_SEXO",
+                table: "PACIENTES",
+                column: "NU_ID_SEXO");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PACIENTES_NU_ID_TIPO_SEGURO",
+                table: "PACIENTES",
+                column: "NU_ID_TIPO_SEGURO");
         }
 
         /// <inheritdoc />
@@ -254,6 +316,9 @@ namespace BackendPTDetecta.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "MAESTROS");
         }
     }
 }

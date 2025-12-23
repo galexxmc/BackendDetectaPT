@@ -29,7 +29,7 @@ public class ActualizarPacienteCommandHandler : IRequestHandler<ActualizarPacien
         entity.Apellidos = request.Apellidos;
         entity.Dni = request.Dni;
         entity.FechaNacimiento = request.FechaNacimiento;
-        entity.Sexo = (Domain.Enums.Sexo)request.SexoId;
+        entity.SexoId = request.SexoId;
         entity.Direccion = request.Direccion ?? string.Empty;
         entity.Telefono = request.Telefono ?? string.Empty;
         entity.Email = request.Email ?? string.Empty;

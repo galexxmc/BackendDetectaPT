@@ -46,10 +46,12 @@ public class GetPacientesListQueryHandler : IRequestHandler<GetPacientesListQuer
                 Dni = p.Dni,
                 FechaNacimiento = p.FechaNacimiento,
                 Edad = p.Edad,
-                Sexo = p.Sexo.ToString(), 
+                Sexo = p.Sexo != null ? p.Sexo.Nombre : "Desconocido",
                 Telefono = p.Telefono,
                 Email = p.Email,
-                NombreSeguro = p.TipoSeguro != null ? p.TipoSeguro.Nombre : "Particular"
+                Direccion = p.Direccion,
+                NombreSeguro = p.TipoSeguro != null ? p.TipoSeguro.Nombre : "Particular",
+                HistoriaClinica = p.HistoriaClinica
             });
 
         // 4. Paginación y Retorno

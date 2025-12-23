@@ -1,5 +1,4 @@
 using BackendPTDetecta.Domain.Common;
-using BackendPTDetecta.Domain.Enums;
 
 namespace BackendPTDetecta.Domain.Entities
 {
@@ -9,8 +8,10 @@ namespace BackendPTDetecta.Domain.Entities
         public string Apellidos { get; set; } = string.Empty;
         public string Dni { get; set; } = string.Empty;
         public string Codigo { get; set; } = string.Empty;
+        public string HistoriaClinica { get; set; } = string.Empty;
         public DateOnly FechaNacimiento { get; set; }
-        public Sexo Sexo { get; set; }
+        public int SexoId { get; set; }
+        public Maestro? Sexo { get; set; } // Propiedad de navegación
         public string Direccion { get; set; } = string.Empty;
         public string Telefono { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
@@ -27,7 +28,7 @@ namespace BackendPTDetecta.Domain.Entities
                 return edad;
             }
         }
-        public int? TipoSeguroId { get; set; } 
-        public TipoSeguro? TipoSeguro { get; set; }
+        public int TipoSeguroId { get; set; }
+        public Maestro? TipoSeguro { get; set; } // Propiedad de navegación
     }
 }

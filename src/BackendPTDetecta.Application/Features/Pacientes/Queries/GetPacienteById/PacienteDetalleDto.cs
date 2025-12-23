@@ -13,4 +13,5 @@ public class PacienteDetalleDto
     public string? Telefono { get; set; }
     public string? Email { get; set; }
     public string? Direccion { get; set; }
+    public string NombreSeguro { get; set; } = string.Empty;
 }
